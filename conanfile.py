@@ -6,6 +6,7 @@ import os.path
 class RubyInstallerConan(ConanFile):
     name = "ruby_installer"
     version = "2.5.1"
+    api_version = "2.5.0"
     rubyinstaller_release = "2"
     license = "MIT"
     settings = "os_build", "arch_build"
@@ -28,6 +29,8 @@ class RubyInstallerConan(ConanFile):
             tools.download(url, "ruby.7z")
             self.run("7z x {}".format("ruby.7z"))
             shutil.move(folder, "ruby")
+            # Remove non-standard defaults directory
+            shutil.rmtree(os.path.join("ruby", "lib", "ruby", self.api_version, "rubygems", "defaults"))
         elif tools.os_info.is_linux or tools.os_info.is_macos:
             name = tools.os_info.linux_distro or "osx"
             version = str(tools.os_info.os_version)
