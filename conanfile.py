@@ -13,13 +13,44 @@ class RubyInstallerConan(ConanFile):
     url = "https://github.com/elizagamedev/conan-ruby_installer"
     description = "Install Ruby binaries for use in recipies"
 
+    folder = "ruby-{}".format(version)
+
+    def system_requirements(self):
+        if tools.os_info.is_linux:
+            installer = tools.SystemPackageTool()
+            packages = ["ruby"]
+            installer.install("ruby")
+            if tools.os_info.with_apt:
+                packages.append("zlib1g-dev")
+            elif tools.os_info.is_linux and not tools.os_info.with_pacman:
+                packages.append("zlib-devel")
+            installer.install(packages)
+
     def build_requirements(self):
         if tools.os_info.is_windows:
             self.build_requires("7z_installer/1.0@conan/stable")
 
+    def source(self):
+        if not tools.os_info.is_windows:
+            tools.get("https://cache.ruby-lang.org/pub/ruby/{}/{}.tar.gz".format(
+                self.version.rpartition(".")[0],
+                self.folder))
+
+    def build_ruby(self):
+        with tools.chdir(self.folder):
+            args = [
+                "--prefix={}".format(self.package_folder),
+                "--disable-install-doc",
+                "--with-out-ext=gdbm,openssl,pty,readline,syslog",
+                "--without-gmp",
+            ]
+            self.run("./configure {}".format(" ".join(args)))
+            self.run("make")
+            self.run("make install")
+
     def build(self):
-        # Extract binaries into a directory called "ruby"
         if tools.os_info.is_windows:
+            # Extract binaries into a directory called "ruby"
             arch = {"x86": "x86",
                     "x86_64": "x64"}[str(self.settings.arch_build)]
             name = "rubyinstaller-{}-{}".format(self.version, self.rubyinstaller_release)
@@ -28,28 +59,17 @@ class RubyInstallerConan(ConanFile):
                 name, folder)
             tools.download(url, "ruby.7z")
             self.run("7z x {}".format("ruby.7z"))
-            shutil.move(folder, "ruby")
+            shutil.move(folder, self.folder)
             # Remove non-standard defaults directory
-            shutil.rmtree(os.path.join("ruby", "lib", "ruby", self.api_version, "rubygems", "defaults"))
-        elif tools.os_info.is_linux or tools.os_info.is_macos:
-            name = tools.os_info.linux_distro or "osx"
-            version = str(tools.os_info.os_version)
-            url = "https://rvm.io/binaries/{}/{}/{}/ruby-{}.tar.bz2".format(
-                name, version, str(self.settings.arch_build), self.version)
-            tools.get(url)
-            shutil.move("ruby-{}".format(self.version), "ruby")
+            shutil.rmtree(os.path.join(self.folder, "lib", "ruby", self.api_version, "rubygems", "defaults"))
+        else:
+            # On Unix, the binaries are less reliable. We will have to build it
+            # ourselves.
+            self.build_ruby()
 
     def package(self):
-        self.copy("*", src="ruby", symlinks=True)
+        if tools.os_info.is_windows:
+            self.copy("*", src=self.folder, symlinks=True)
 
     def package_info(self):
         self.env_info.path.append(os.path.join(self.package_folder, "bin"))
-
-    def package_id(self):
-        if tools.os_info.is_windows:
-            os_build = "Windows"
-        else:
-            name = tools.os_info.linux_distro or "osx"
-            version = str(tools.os_info.os_version)
-            os_build = "{} {}".format(name, version)
-        self.info.settings.os_build = os_build
