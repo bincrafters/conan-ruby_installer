@@ -2,7 +2,7 @@
 
 | Bintray | Windows | Linux & macOS |
 |:--------:|:---------:|:-----------------:|
-| [ ![Download](https://api.bintray.com/packages/eliza/conan/ruby_installer%3Aeliza/images/download.svg) ](https://bintray.com/eliza/conan/ruby_installer%3Aeliza/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/github/elizagamedev/conan-ruby_installer?svg=true)](https://ci.appveyor.com/project/ElizaVelasquez/conan-ruby-installer)|[![Build Status](https://travis-ci.org/elizagamedev/conan-ruby_installer.svg)](https://travis-ci.org/elizagamedev/conan-ruby_installer)|
+| [ ![Download](https://api.bintray.com/packages/bincrafters/public-conan/ruby_installer%3Aeliza/images/download.svg) ](https://bintray.com/bincrafters/public-conan/ruby_installer%3Aeliza/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/github/bincrafters/conan-ruby_installer?svg=true)](https://ci.appveyor.com/project/bincrafters/conan-ruby-installer)|[![Build Status](https://travis-ci.org/bincrafters/conan-ruby_installer.svg)](https://travis-ci.org/bincrafters/conan-ruby_installer)|
 
 ## Conan.io Information
 
