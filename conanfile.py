@@ -12,6 +12,7 @@ class RubyInstallerConan(ConanFile):
     settings = "os_build", "arch_build"
     url = "https://github.com/elizagamedev/conan-ruby_installer"
     description = "Install Ruby binaries for use in recipies"
+    exports = "LICENSE.md"
 
     folder = "ruby-{}".format(version)
 
@@ -69,7 +70,11 @@ class RubyInstallerConan(ConanFile):
 
     def package(self):
         if tools.os_info.is_windows:
-            self.copy("*", src=self.folder, symlinks=True)
+            self.copy("*", src=self.folder, symlinks=True, excludes="LICENSE.txt")
+            self.copy("LICENSE.txt", dst="license", src=self.folder)
+        else:
+            self.copy("LEGAL", dst="license", src=self.folder)
+            self.copy("GPL", dst="license", src=self.folder)
 
     def package_info(self):
         self.env_info.path.append(os.path.join(self.package_folder, "bin"))
