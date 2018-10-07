@@ -10,8 +10,10 @@ class RubyInstallerConan(ConanFile):
     rubyinstaller_release = "2"
     license = "MIT"
     settings = "os_build", "arch_build"
-    url = "https://github.com/elizagamedev/conan-ruby_installer"
-    description = "Install Ruby binaries for use in recipies"
+    url = "https://github.com/bincrafters/conan-ruby_installer"
+    homepage = "https://www.ruby-lang.org/"
+    description = "Ruby binaries for use in recipies"
+    author = "Bincrafters <bincrafters@gmail.com>"
     exports = "LICENSE.md"
 
     folder = "ruby-{}".format(version)
