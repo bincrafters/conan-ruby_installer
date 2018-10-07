@@ -5,9 +5,8 @@ import os.path
 
 class RubyInstallerConan(ConanFile):
     name = "ruby_installer"
-    version = "2.5.1"
-    api_version = "2.5.0"
-    rubyinstaller_release = "2"
+    version = "2.3.3"
+    api_version = "2.3.0"
     license = "MIT"
     settings = "os_build", "arch_build"
     url = "https://github.com/elizagamedev/conan-ruby_installer"
@@ -52,12 +51,10 @@ class RubyInstallerConan(ConanFile):
     def build(self):
         if tools.os_info.is_windows:
             # Extract binaries into a directory called "ruby"
-            arch = {"x86": "x86",
+            arch = {"x86": "i386",
                     "x86_64": "x64"}[str(self.settings.arch_build)]
-            name = "rubyinstaller-{}-{}".format(self.version, self.rubyinstaller_release)
-            folder = "{}-{}".format(name, arch)
-            url = "https://github.com/oneclick/rubyinstaller2/releases/download/{}/{}.7z".format(
-                name, folder)
+            folder = "ruby-{}-{}-mingw32".format(self.version, arch)
+            url = "https://dl.bintray.com/oneclick/rubyinstaller/{}.7z".format(folder)
             tools.download(url, "ruby.7z")
             self.run("7z x {}".format("ruby.7z"))
             shutil.move(folder, self.folder)
@@ -71,7 +68,6 @@ class RubyInstallerConan(ConanFile):
     def package(self):
         if tools.os_info.is_windows:
             self.copy("*", src=self.folder, symlinks=True, excludes="LICENSE.txt")
-            self.copy("LICENSE.txt", dst="license", src=self.folder)
         else:
             self.copy("LEGAL", dst="license", src=self.folder)
             self.copy("GPL", dst="license", src=self.folder)
