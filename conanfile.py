@@ -16,7 +16,7 @@ class RubyInstallerConan(ConanFile):
     author = "Bincrafters <bincrafters@gmail.com>"
     exports = "LICENSE.md"
 
-    folder = "ruby-{}".format(version)
+    _folder = "ruby-{}".format(version)
 
     def system_requirements(self):
         if tools.os_info.is_linux:
@@ -37,10 +37,10 @@ class RubyInstallerConan(ConanFile):
         if not tools.os_info.is_windows:
             tools.get("https://cache.ruby-lang.org/pub/ruby/{}/{}.tar.gz".format(
                 self.version.rpartition(".")[0],
-                self.folder))
+                self._folder))
 
     def build_ruby(self):
-        with tools.chdir(self.folder):
+        with tools.chdir(self._folder):
             args = [
                 "--prefix={}".format(self.package_folder),
                 "--disable-install-doc",
@@ -62,9 +62,9 @@ class RubyInstallerConan(ConanFile):
                 name, folder)
             tools.download(url, "ruby.7z")
             self.run("7z x {}".format("ruby.7z"))
-            shutil.move(folder, self.folder)
+            shutil.move(folder, self._folder)
             # Remove non-standard defaults directory
-            shutil.rmtree(os.path.join(self.folder, "lib", "ruby", self.api_version, "rubygems", "defaults"))
+            shutil.rmtree(os.path.join(self._folder, "lib", "ruby", self.api_version, "rubygems", "defaults"))
         else:
             # On Unix, the binaries are less reliable. We will have to build it
             # ourselves.
@@ -72,11 +72,11 @@ class RubyInstallerConan(ConanFile):
 
     def package(self):
         if tools.os_info.is_windows:
-            self.copy("*", src=self.folder, symlinks=True, excludes="LICENSE.txt")
-            self.copy("LICENSE.txt", dst="license", src=self.folder)
+            self.copy("*", src=self._folder, symlinks=True, excludes="LICENSE.txt")
+            self.copy("LICENSE.txt", dst="license", src=self._folder)
         else:
-            self.copy("LEGAL", dst="license", src=self.folder)
-            self.copy("GPL", dst="license", src=self.folder)
+            self.copy("LEGAL", dst="license", src=self._folder)
+            self.copy("GPL", dst="license", src=self._folder)
 
     def package_info(self):
         self.env_info.path.append(os.path.join(self.package_folder, "bin"))
