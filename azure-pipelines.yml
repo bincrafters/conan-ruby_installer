@@ -1,0 +1,45 @@
+jobs:
+- job: Linux
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  timeoutInMinutes: 120
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.7'
+  - script: |
+      pip install --upgrade pip
+      chmod +x .ci/install.sh
+      ./.ci/install.sh
+      chmod +x .ci/run.sh
+      ./.ci/run.sh
+    env:
+      CONAN_LOGIN_USERNAME: $(CONAN_LOGIN_USERNAME)
+      CONAN_PASSWORD: $(CONAN_PASSWORD)
+  strategy:
+    matrix:
+      GCC4.9:
+        CONAN_GCC_VERSIONS: 4.9
+        CONAN_DOCKER_IMAGE: conanio/gcc49
+        ARCH: x86_64
+- job: macOS
+  pool:
+    vmImage: 'macOS-10.13'
+  timeoutInMinutes: 120
+  steps:
+  - script: |
+      /bin/bash -c "sudo xcode-select -s /Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer"
+      pip install --upgrade pip
+      chmod +x .ci/install.sh
+      ./.ci/install.sh
+      chmod +x .ci/run.sh
+      ./.ci/run.sh
+    env:
+      CONAN_LOGIN_USERNAME: $(CONAN_LOGIN_USERNAME)
+      CONAN_PASSWORD: $(CONAN_PASSWORD)
+  strategy:
+    matrix:
+      CLANG8.1:
+        CONAN_APPLE_CLANG_VERSIONS: 8.1
+        XCODE_VERSION: 8.3.3
+        ARCH: x86_64
