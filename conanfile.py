@@ -91,6 +91,7 @@ class RubyInstallerConan(ConanFile):
             autotools = self._configure_autotools()
             autotools.install()
             tools.rmdir(os.path.join(self.package_folder, "share"))
+            tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
 
     def package_id(self):
         del self.info.settings.compiler
