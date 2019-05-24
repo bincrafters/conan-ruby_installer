@@ -6,7 +6,7 @@ from conans import ConanFile, tools, AutoToolsBuildEnvironment
 class RubyInstallerConan(ConanFile):
     name = "ruby_installer"
     version = "2.3.3"
-    license = "MIT"
+    license = "Ruby"
     settings = "os_build", "arch_build", "compiler"
     url = "https://github.com/bincrafters/conan-ruby_installer"
     homepage = "https://www.ruby-lang.org/"
