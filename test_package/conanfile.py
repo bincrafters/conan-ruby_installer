@@ -7,7 +7,7 @@ class RubyInstallerTestConan(ConanFile):
     settings = "os", "arch", "build_type", "arch"
     generators = "txt"
 
-    def  build(self):
+    def build(self):
         pass
 
     def test(self):
