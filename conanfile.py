@@ -33,15 +33,14 @@ class RubyInstallerConan(ConanFile):
             self.build_requires("7z_installer/1.0@conan/stable")
 
     def source(self):
-        if self.settings.os_build != "Windows":
-            sha256 = "241408c8c555b258846368830a06146e4849a1d58dcaf6b14a3b6a73058115b7"
-            source_url = "https://cache.ruby-lang.org"
-            tools.get("{}/pub/ruby/{}/ruby-{}.tar.gz".format(
-                source_url,
-                self.version.rpartition(".")[0],
-                self.version), sha256=sha256)
-            extracted_folder = "ruby-" + self.version
-            os.rename(extracted_folder, self._source_subfolder)
+        sha256 = "241408c8c555b258846368830a06146e4849a1d58dcaf6b14a3b6a73058115b7"
+        source_url = "https://cache.ruby-lang.org"
+        tools.get("{}/pub/ruby/{}/ruby-{}.tar.gz".format(
+            source_url,
+            self.version.rpartition(".")[0],
+            self.version), sha256=sha256)
+        extracted_folder = "ruby-" + self.version
+        os.rename(extracted_folder, self._source_subfolder)
 
     def _configure_autotools(self):
         if not self._autotools:
@@ -61,6 +60,7 @@ class RubyInstallerConan(ConanFile):
         url = "https://dl.bintray.com/oneclick/rubyinstaller/{}.7z".format(folder)
         tools.download(url, "ruby.7z")
         self.run("7z x {}".format("ruby.7z"), run_environment=True)
+        tools.rmdir(self._source_subfolder)
         os.rename(folder, self._source_subfolder)
         tools.rmdir(os.path.join(self._source_subfolder, "lib", "ruby", self._api_version, "rubygems", "defaults"))
 
@@ -88,4 +88,6 @@ class RubyInstallerConan(ConanFile):
         del self.info.settings.compiler
 
     def package_info(self):
-        self.env_info.PATH.append(os.path.join(self.package_folder, "bin"))
+        ruby = os.path.join(self.package_folder, "bin")
+        self.output.info('Appending PATH environment variable: %s' % ruby)
+        self.env_info.PATH.append(ruby)
