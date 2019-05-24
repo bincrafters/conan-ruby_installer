@@ -85,10 +85,12 @@ class RubyInstallerConan(ConanFile):
             self.copy("*", src=self._source_subfolder, symlinks=True, excludes="LICENSE.txt")
             self.copy("LICENSE.txt", dst="licenses", src=self._source_subfolder)
         else:
+            self.copy("COPYING", dst="licenses", src=self._source_subfolder)
             self.copy("LEGAL", dst="licenses", src=self._source_subfolder)
             self.copy("GPL", dst="licenses", src=self._source_subfolder)
             autotools = self._configure_autotools()
             autotools.install()
+            tools.rmdir(os.path.join(self.package_folder, "share"))
 
     def package_id(self):
         del self.info.settings.compiler
