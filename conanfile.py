@@ -74,14 +74,14 @@ class RubyInstallerConan(ConanFile):
         tools.rmdir(os.path.join(self._source_subfolder, "lib", "ruby", self._api_version, "rubygems", "defaults"))
 
     def build(self):
-        if tools.os_info.is_windows:
+        if self.settings.os_build == "Windows":
             self._configure_installer()
         else:
             autotools = self._configure_autotools()
             autotools.make()
 
     def package(self):
-        if tools.os_info.is_windows:
+        if self.settings.os_build == "Windows":
             self.copy("*", src=self._source_subfolder, symlinks=True, excludes="LICENSE.txt")
             self.copy("LICENSE.txt", dst="licenses", src=self._source_subfolder)
         else:
