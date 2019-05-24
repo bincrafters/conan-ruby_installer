@@ -21,10 +21,6 @@ class RubyInstallerConan(ConanFile):
         return "2.3.0"
 
     @property
-    def _rubyinstaller_release(self):
-        return "2"
-
-    @property
     def _source_subfolder(self):
         return "source_subfolder"
 
@@ -60,17 +56,12 @@ class RubyInstallerConan(ConanFile):
         return self._autotools
 
     def _configure_installer(self):
-        # Extract binaries into a directory called "ruby"
-        arch = {"x86": "x86",
-                "x86_64": "x64"}[str(self.settings.arch_build)]
-        name = "rubyinstaller-{}-{}".format(self.version, self._rubyinstaller_release)
-        folder = "{}-{}".format(name, arch)
-        url = "https://github.com/oneclick/rubyinstaller2/releases/download/{}/{}.7z".format(
-            name, folder)
+        arch = {"x86": "i386", "x86_64": "x64"}[str(self.settings.arch_build)]
+        folder = "ruby-{}-{}-mingw32".format(self.version, arch)
+        url = "https://dl.bintray.com/oneclick/rubyinstaller/{}.7z".format(folder)
         tools.download(url, "ruby.7z")
         self.run("7z x {}".format("ruby.7z"), run_environment=True)
         os.rename(folder, self._source_subfolder)
-        # Remove non-standard defaults directory
         tools.rmdir(os.path.join(self._source_subfolder, "lib", "ruby", self._api_version, "rubygems", "defaults"))
 
     def build(self):
