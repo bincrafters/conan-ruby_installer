@@ -10,7 +10,8 @@ class RubyInstallerConan(ConanFile):
     settings = "os_build", "arch_build", "compiler"
     url = "https://github.com/bincrafters/conan-ruby_installer"
     homepage = "https://www.ruby-lang.org/"
-    description = "Ruby binaries for use in recipies"
+    description = "Ruby is an interpreted, high-level, general-purpose programming language"
+    topics = ("conan", "installer", "ruby", "gem")
     author = "Bincrafters <bincrafters@gmail.com>"
     exports = "LICENSE.md"
     _autotools = None
