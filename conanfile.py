@@ -5,7 +5,7 @@ from conans import ConanFile, tools, AutoToolsBuildEnvironment
 
 class RubyInstallerConan(ConanFile):
     name = "ruby_installer"
-    version = "2.5.5"
+    version = "2.6.3"
     license = "Ruby"
     settings = "os_build", "arch_build", "compiler"
     url = "https://github.com/bincrafters/conan-ruby_installer"
@@ -18,7 +18,7 @@ class RubyInstallerConan(ConanFile):
 
     @property
     def _api_version(self):
-        return "2.5.0"
+        return "2.6.0"
 
     @property
     def _rubyinstaller_release(self):
@@ -37,7 +37,7 @@ class RubyInstallerConan(ConanFile):
             self.build_requires("7z_installer/1.0@conan/stable")
 
     def source(self):
-        sha256 = "28a945fdf340e6ba04fc890b98648342e3cccfd6d223a48f3810572f11b2514c"
+        sha256 = "577fd3795f22b8d91c1d4e6733637b0394d4082db659fccf224c774a2b1c82fb"
         source_url = "https://cache.ruby-lang.org"
         tools.get("{}/pub/ruby/{}/ruby-{}.tar.gz".format(
             source_url,
