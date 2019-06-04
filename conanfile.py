@@ -5,7 +5,7 @@ from conans import ConanFile, tools, AutoToolsBuildEnvironment
 
 class RubyInstallerConan(ConanFile):
     name = "ruby_installer"
-    version = "2.5.1"
+    version = "2.5.5"
     license = "Ruby"
     settings = "os_build", "arch_build", "compiler"
     url = "https://github.com/bincrafters/conan-ruby_installer"
@@ -22,7 +22,7 @@ class RubyInstallerConan(ConanFile):
 
     @property
     def _rubyinstaller_release(self):
-        return "2"
+        return "1"
 
     @property
     def _source_subfolder(self):
@@ -37,7 +37,7 @@ class RubyInstallerConan(ConanFile):
             self.build_requires("7z_installer/1.0@conan/stable")
 
     def source(self):
-        sha256 = "dac81822325b79c3ba9532b048c2123357d3310b2b40024202f360251d9829b1"
+        sha256 = "28a945fdf340e6ba04fc890b98648342e3cccfd6d223a48f3810572f11b2514c"
         source_url = "https://cache.ruby-lang.org"
         tools.get("{}/pub/ruby/{}/ruby-{}.tar.gz".format(
             source_url,
@@ -62,8 +62,8 @@ class RubyInstallerConan(ConanFile):
         # Extract binaries into a directory called "ruby"
         arch = {"x86": "x86",
                 "x86_64": "x64"}[str(self.settings.arch_build)]
-        name = "rubyinstaller-{}-{}".format(self.version, self._rubyinstaller_release)
-        folder = "{}-{}".format(name, arch)
+        name = "RubyInstaller-{}-{}".format(self.version, self._rubyinstaller_release)
+        folder = "{}-{}".format(name.lower(), arch)
         url = "https://github.com/oneclick/rubyinstaller2/releases/download/{}/{}.7z".format(
             name, folder)
         tools.download(url, "ruby.7z")
