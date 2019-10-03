@@ -30,7 +30,7 @@ class RubyInstallerConan(ConanFile):
 
     def requirements(self):
         if self.settings.os_build == "Linux":
-            self.requires("zlib/1.2.11@conan/stable")
+            self.requires("zlib/1.2.11")
 
     def build_requirements(self):
         if self.settings.os_build == "Windows":
