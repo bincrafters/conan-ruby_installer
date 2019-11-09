@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from conans import ConanFile, tools, AutoToolsBuildEnvironment
 
@@ -12,7 +11,6 @@ class RubyInstallerConan(ConanFile):
     homepage = "https://www.ruby-lang.org/"
     description = "Ruby is an interpreted, high-level, general-purpose programming language"
     topics = ("conan", "installer", "ruby", "gem")
-    author = "Bincrafters <bincrafters@gmail.com>"
     exports = "LICENSE.md"
     _autotools = None
 
