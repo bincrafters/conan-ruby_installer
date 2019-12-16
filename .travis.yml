@@ -8,7 +8,8 @@ linux: &linux
 
 matrix:
    include:
-      - <<: *linux
+      - stage: installer
+        <<: *linux
         env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7-centos6 ARCH=x86_64
 
 
