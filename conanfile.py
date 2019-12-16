@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from conans import ConanFile, tools, AutoToolsBuildEnvironment
 
@@ -12,7 +11,6 @@ class RubyInstallerConan(ConanFile):
     homepage = "https://www.ruby-lang.org/"
     description = "Ruby is an interpreted, high-level, general-purpose programming language"
     topics = ("conan", "installer", "ruby", "gem")
-    author = "Bincrafters <bincrafters@gmail.com>"
     exports = "LICENSE.md"
     _autotools = None
 
@@ -30,11 +28,11 @@ class RubyInstallerConan(ConanFile):
 
     def requirements(self):
         if self.settings.os_build == "Linux":
-            self.requires("zlib/1.2.11@conan/stable")
+            self.requires("zlib/1.2.11")
 
     def build_requirements(self):
         if self.settings.os_build == "Windows":
-            self.build_requires("7z_installer/1.0@conan/stable")
+            self.build_requires("7zip/19.00")
 
     def source(self):
         sha256 = "28a945fdf340e6ba04fc890b98648342e3cccfd6d223a48f3810572f11b2514c"
