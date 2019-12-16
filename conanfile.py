@@ -11,7 +11,6 @@ class RubyInstallerConan(ConanFile):
     homepage = "https://www.ruby-lang.org/"
     description = "Ruby is an interpreted, high-level, general-purpose programming language"
     topics = ("conan", "installer", "ruby", "gem")
-    exports = "LICENSE.md"
     _autotools = None
 
     @property
