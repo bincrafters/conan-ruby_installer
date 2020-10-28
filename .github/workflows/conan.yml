@@ -56,8 +56,6 @@ jobs:
           # remove newlines from matrix first
           matrix=$(echo ${BPT_MATRIX})
           bincrafters-package-tools prepare-env --platform gha --config "${matrix}"
-          pwd 
-          ls
         shell: bash
       - name: Run
         env:
