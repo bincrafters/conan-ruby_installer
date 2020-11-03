@@ -52,7 +52,9 @@ class RubyInstallerConan(ConanFile):
                 "--disable-install-doc",
                 "--with-out-ext=gdbm,pty,readline,syslog",
                 "--without-gmp",
-                "--enable-load-relative"
+                "--enable-load-relative",
+                "--with-openssl-dir={}".format(self.deps_cpp_info["openssl"]
+                                                   .rootpath)
             ]
             self._autotools.configure(args=args, configure_dir=self._source_subfolder)
         return self._autotools
