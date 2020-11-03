@@ -48,7 +48,7 @@ class RubyInstallerConan(ConanFile):
             self._autotools = AutoToolsBuildEnvironment(self)
             args = [
                 "--disable-install-doc",
-                "--with-out-ext=gdbm,openssl,pty,readline,syslog",
+                "--with-out-ext=gdbm,pty,readline,syslog",
                 "--without-gmp",
                 "--enable-load-relative"
             ]
