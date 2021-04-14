@@ -33,7 +33,7 @@ class RubyInstallerConan(ConanFile):
         if self.settings.os_build == "Windows":
             self.build_requires("7zip/19.00")
         else:
-            self.build_requires("openssl/1.1.1j")
+            self.build_requires("openssl/1.1.1k")
 
     def source(self):
         sha256 = "6e5706d0d4ee4e1e2f883db9d768586b4d06567debea353c796ec45e8321c3d4"
